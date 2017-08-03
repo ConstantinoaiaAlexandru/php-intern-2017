@@ -14,22 +14,8 @@
 <!--[if lt IE 9]><script src="scripts/html5shiv.js"></script><![endif]-->
 </head>
 <body>
-<div class="wrapper row1">
-  <header id="header" class="clear">
-    <div id="hgroup">
-      <h1><a href="#">Roweb</a></h1>
-      <h2>Internship Program</h2>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="products.html">Products</a></li>
-        <li><a href="add-product.html">Add product</a></li>
-        <li><a href="login.html">Login</a></li>
-      </ul>
-    </nav>
-  </header>
-</div>
+  <?php include('lib/header.php'); ?>
+
 <!-- content -->
 <div class="wrapper row2">
   <div id="container" class="clear">
@@ -38,17 +24,21 @@
 
 	<div class="container">
 
-	<form action="index.html" method="post">
+	<form id='add_prod_form' action="save_prod.php" method="post" enctype="multipart/form-data">
 
         <h1>Add a product</h1>
+
+        <input type="file" name="image" id="image"><br><br>
+        <label for="price">Price:</label>
+        <input type="text" name="price" id="price"><br><br>
 
         <fieldset>
           <legend>Product Details</legend>
           <label for="name"> Product Name:</label>
-          <input type="text" id="name" name="product_name">
+          <input type="text" id="name" name="name">
 
 		  <label for="decription"> Description:</label>
-		  <textarea id="decription" name="product_name"></textarea>
+		  <textarea id="details" name="details"></textarea>
 
           <label>Favorite:</label>
           <input type="radio" id="favorite-yes" value="favorite" name="favorite_product"><label for="favorite-yes" class="light">Yes</label><br>
@@ -81,12 +71,8 @@
 
 </div>
 <!-- footer -->
-<div class="wrapper row3">
-  <footer id="footer" class="clear">
-    <p class="fl_left">Copyright &copy; 2012 - All Rights Reserved - <a href="#">Domain Name</a></p>
-    <p class="fl_right">Template by <a href="http://www.os-templates.com/" title="Free Website Templates">OS Templates</a></p>
-  </footer>
-</div>
+<?php include('lib/footer.php'); ?>
+
 <script>
 $(function(){
 	$('.bxslider').bxSlider({
@@ -114,6 +100,20 @@ $(function(){
 		$('.custom-menu').find('.active').removeClass('active');
 		$(this).addClass('active');
 	});
+});
+
+$('#add_prod_form').on('submit', function(e) {
+  e.preventDefault();
+  var name = $('#name').val();
+  var details = $('#details').val();
+  var price = $('#price').val();
+  var image = $('#image').val();
+
+  if(name.length <= 0 || details.length <= 0 || price.length <= 0 || image.length <= 0) {
+    alert('Please fill all the fields');
+    return;
+  }
+    $('#add_prod_form')[0].submit();
 });
 </script>
 </body>

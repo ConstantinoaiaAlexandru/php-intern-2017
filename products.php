@@ -1,3 +1,22 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "eshop";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT * FROM Products";
+$result = $conn->query($sql);
+$result = mysqli_fetch_all($result,MYSQLI_ASSOC);
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -18,22 +37,8 @@
 <!--[if lt IE 9]><script src="scripts/html5shiv.js"></script><![endif]-->
 </head>
 <body>
-<div class="wrapper row1">
-  <header id="header" class="clear">
-    <div id="hgroup">
-      <h1><a href="#">Roweb</a></h1>
-      <h2>Internship Program</h2>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="products.html">Products</a></li>
-        <li><a href="add-product.html">Add product</a></li>
-        <li><a href="login.html">Login</a></li>
-      </ul>
-    </nav>
-  </header>
-</div>
+  <?php include('lib/header.php'); ?>
+
 <!-- content -->
 <div class="wrapper row2">
   <div id="container" class="clear">
@@ -57,61 +62,20 @@
 		</ul>
 
 		<div id="tab-1" class="tab-content current">
-			<div class="product">
-				<img src="images/demo/80x80.gif" alt="">
-				<div style="clear:both;"></div>
-				<span> The product title </span>
-			</div>
-			<div class="product">
-				<img src="images/demo/80x80.gif" alt="">
-				<div style="clear:both;"></div>
-				<span> The product title </span>
-			</div>
-			<div class="product">
-				<img src="images/demo/80x80.gif" alt="">
-				<div style="clear:both;"></div>
-				<span> The product title </span>
-			</div>
-			<div class="product">
-				<img src="images/demo/80x80.gif" alt="">
-				<div style="clear:both;"></div>
-				<span> The product title </span>
-			</div>
-			<div class="product last">
-				<img src="images/demo/80x80.gif" alt="">
-				<div style="clear:both;"></div>
-				<span> The product title </span>
-			</div>
-
-			<div style="clear:both;"></div>
-
-			<div class="product">
-				<img src="images/demo/80x80.gif" alt="">
-				<div style="clear:both;"></div>
-				<span> The product title </span>
-			</div>
-			<div class="product">
-				<img src="images/demo/80x80.gif" alt="">
-				<div style="clear:both;"></div>
-				<span> The product title </span>
-			</div>
-			<div class="product">
-				<img src="images/demo/80x80.gif" alt="">
-				<div style="clear:both;"></div>
-				<span> The product title </span>
-			</div>
-			<div class="product">
-				<img src="images/demo/80x80.gif" alt="">
-				<div style="clear:both;"></div>
-				<span> The product title </span>
-			</div>
-			<div class="product last">
-				<img src="images/demo/80x80.gif" alt="">
-				<div style="clear:both;"></div>
-				<span> The product title </span>
-			</div>
-			<div style="clear:both;"></div>
-		</div>
+      <?php
+        foreach($result as $res) {
+      ?>
+          <div class="product">
+            <img src="images/<?php echo $res['image'] ?>" alt="">
+            <div style="clear:both;"></div>
+            <span><?php echo $res['id'] ?></span>
+            <span><?php echo $res['name'] ?></span>
+            <span><?php echo $res['details'] ?></span>
+            <span><?php echo $res['price'] ?></span>
+          </div>
+      <?php
+        }
+      ?>
 		<div id="tab-2" class="tab-content">
 			 <div class="product">
 
@@ -183,12 +147,8 @@
 
 </div>
 <!-- footer -->
-<div class="wrapper row3">
-  <footer id="footer" class="clear">
-    <p class="fl_left">Copyright &copy; 2012 - All Rights Reserved - <a href="#">Domain Name</a></p>
-    <p class="fl_right">Template by <a href="http://www.os-templates.com/" title="Free Website Templates">OS Templates</a></p>
-  </footer>
-</div>
+<?php include('lib/footer.php'); ?>
+
 <script>
 	$(function(){
 		$('.bxslider').bxSlider({
